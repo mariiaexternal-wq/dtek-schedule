@@ -66,6 +66,8 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           REGION: ${{ secrets.REGION }}
           GROUP: ${{ secrets.GROUP }}
+          SVITLO_URL: ${{ secrets.SVITLO_URL }}
+          SVITLO_KEY: ${{ secrets.SVITLO_KEY }}
         run: node ./src/schedule.js
 
       - name: Commit updated artifacts
