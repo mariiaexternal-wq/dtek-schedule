@@ -9,6 +9,7 @@ import {
   deleteLastMessage,
   useSchedule,
 } from "./helpers.js"
+import { sendToSvitlo } from "./svitlo.js"
 import {
   GROUP,
   hours,
@@ -197,6 +198,15 @@ async function sendNotification({ text, scheduleText }) {
 
 async function run() {
   const data = await getShutdownsData()
+
+  // send every day on the page to the Svitlo function (does nothing without SVITLO_URL)
+  await sendToSvitlo(data)
+
+  // the Telegram message is optional: skipped when no bot token / chat id are set
+  if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
+    console.log("ℹ️ No Telegram settings, skipping the Telegram message.")
+    return
+  }
 
   const groups = data.data?.[data.today] ?? {}
   if (!Object.keys(groups).length) {
